@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Web Scraper</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #373737, #102637);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container with glass effect */
+        .container {
+            background: rgb(194,194,194);
+background: linear-gradient(180deg, rgba(194,194,194,0.835171568627451) 0%, rgba(89,89,89,1) 38%, rgba(74,74,74,1) 52%, rgba(71,69,69,1) 75%, rgba(0,0,0,0.8463760504201681) 100%);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 250px;
+            width: 500px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* Title with separate border */
+        h1 {
+            font-size: 2em;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border: 3px none rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* Labels */
+        label {
+            font-size: 1.1em;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            color: #ffffffc9;
+        }
+
+        /* Input fields with separate borders */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        /* Change border color when input is focused */
+        input[type="text"]:focus {
+            border: 2px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* Button with skeuomorphic effect */
+        button {
+            padding: 12px 20px;
+            font-size: 1em;
+            color: white;
+            background: rgb(194,194,194);
+            background: linear-gradient(180deg, rgba(194,194,194,0.835171568627451) 0%, rgba(89,89,89,1) 38%, rgba(74,74,74,1) 52%, rgba(71,69,69,1) 75%, rgba(0,0,0,0.8463760504201681) 100%);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        -4px -4px 8px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Text area for displaying scraped HTML */
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        /* Separator for results */
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 20px 0;
+        }
+
+        /* Smooth curved lines effect */
+        .curved-background {
+            position: absolute;
+            top: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Aurora effect at the bottom */
+        .aurora {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.15));
+            border-radius: 50%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Smooth curved background element -->
+    <div class="curved-background"></div>
+
+    <!-- Main container with glass effect -->
+    <div class="container">
+        <h1>HTML Web Scraper</h1>
+        <form method="POST">
+            <label for="url1">Enter the first website URL:</label>
+            <input type="text" id="url1" name="url1" placeholder="https://example.com" required>
+
+            <label for="url2">Enter the second website URL (optional):</label>
+            <input type="text" id="url2" name="url2" placeholder="https://another.com">
+
+            <label for="element">Enter HTML element to scrape (optional):</label>
+            <input type="text" id="element" name="element" placeholder="div, p, h1, etc.">
+
+            <button type="submit">Scrape</button>
+        </form>
+
+        {% if results %}
+            <h2>Scraped Results</h2>
+            {% for result in results %}
+                <h3>URL: {{ result.url }}</h3>
+                {% if result.html_content %}
+                    <textarea rows="10">{{ result.html_content }}</textarea>
+                {% elif result.error %}
+                    <p style="color: red;">Error: {{ result.error }}</p>
+                {% endif %}
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</body>
+</html>
